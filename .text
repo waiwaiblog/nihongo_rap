@@ -1,0 +1,57 @@
+
+<form method="post" action="">
+
+<label>ニックネーム 
+    <div class="cp_iptxt">
+      <p><?php echo $userData['username'] ?></p>
+      <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+    </div>
+  </label>
+
+    <label>レビューの見出し
+      <span class="warning">
+        <?php if(!empty($err_msg['reviews_title'])) echo $err_msg['reviews_title'] ?>
+      </span>
+      <div class="cp_iptxt">
+        <input type="text" placeholder="見出し" name="reviews_title" value="<?php if(!empty($_POST['reviews_title'])) echo $_POST['reviews_title'] ?>" id="title">
+        <i class="fa fa-bookmark fa-lg fa-fw" aria-hidden="true"></i>
+      </div>
+    </label>
+
+    <label>星の数(5点満点)
+      <span class="warning">
+        <?php if(!empty($err_msg['star'])) echo $err_msg['star'] ?>
+      </span>
+      <div class="cp_ipselect cp_sl02">
+        <select name="star" id="stars">
+        <option value="" hidden>選択してください</option>
+        <?php
+          for($starnum = 1; $starnum <= 5; $starnum++) {
+              if(!empty($_POST['star'])) {
+                if((int)$_POST['star'] === $starnum) {
+                  $selected = 'selected';
+                } else {
+                  $selected = '';
+                }
+              }
+              echo '<option value="' . $starnum . '" ' . $selected . '>' . '★×' . $starnum . '個' . '</option>';
+          }
+        ?>
+        </select>
+      </div>
+    </label>
+
+    <label>コメント
+      <span class="warning">
+        <?php if(!empty($err_msg['reviews_comment'])) echo $err_msg['reviews_comment'] ?>
+      </span>
+      <div class="cp_iptxt">
+        <i class="fa fa-comment fa-lg fa-fw" aria-hidden="true"></i>
+        <textarea placeholder="レビューよろしくお願いします。" name="reviews_comment" style="height: 300px;" id="comment"><?php if(!empty($_POST)) echo $_POST['reviews_comment'] ?></textarea>
+      </div>
+    </label>
+
+    <div class="center pb-30">
+    <button type="submit" name="button_submit" value="投稿する" class="button" id="chgDateSub">投稿する</button>
+    </div>        
+    </form>
