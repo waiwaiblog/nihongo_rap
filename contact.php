@@ -1,6 +1,7 @@
 <?php 
 
 require('function.php');
+require ('MailTest.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debug('「　お問い合わせページ　');
@@ -56,7 +57,7 @@ if(!empty($_POST['button_submit']) && $page_flg === 1) {
   //EOTはEndOfFileの略。ABCでもなんでもいい。先頭の<<<の後の文字列と合わせること。最後のEOTの前後に空白など何も入れてはいけない。
   //EOT内の半角空白も全てそのまま半角空白として扱われるのでインデントはしないこと
   $comment = <<<EOT
-{$username}　さんよりメールが届きました。
+{$username}({$email})　さんよりメールが届きました。
 
 {$message}
               
@@ -64,7 +65,8 @@ if(!empty($_POST['button_submit']) && $page_flg === 1) {
 日本語ラップレビューの会
 ////////////////////////////////////////
 EOT;
-  sendMail($email, $to, $subject, $comment);
+  $send = new MailTest();
+  $send->sendMail($subject, $comment, $to);
 
   $_SESSION['msg_success'] = '送信されました。';
       

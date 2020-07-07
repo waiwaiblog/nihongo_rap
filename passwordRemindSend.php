@@ -1,6 +1,7 @@
 <?php 
 
 require('function.php');
+require('MailTest.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debug('「　パスワード再発行メール送信　');
@@ -42,7 +43,6 @@ if(!empty($_POST)) {
           $auth_key = makeRandKey();
 
           $to = $email;
-          $from = 'info@waiwaiblog.net';
           $subject = '【パスワード再発行認証】｜日本語ラップレビュー会';
           $comment = <<<EOT
 本メールアドレス宛にパスワード再発行のご依頼がありました。
@@ -60,7 +60,8 @@ http://localhost:8888/nihongorap/passRemindSend.php
 ※尚、本メールは送信用ですのでご返信はできません。
 ////////////////////////////////////////
 EOT;
-          sendMail($from, $to, $subject, $comment);
+          $send = new MailTest();
+          $send->sendMail($subject, $comment, $to);
           $_SESSION['auth_key'] = $auth_key;
           $_SESSION['auth_email'] = $email;
           $_SESSION['auth_key_limit'] = time() + (60 * 30);
